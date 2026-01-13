@@ -1,0 +1,21 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Deployment {
+  id            String   @id @default(cuid())
+  projectName   String
+  status        String
+  branch        String
+  commitHash    String
+  commitMessage String?
+  logs          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  endedAt       DateTime?
+}
