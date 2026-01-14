@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface Deployment {
+export interface Deployment {
     id: string;
     projectName: string;
     status: string;

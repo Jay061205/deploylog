@@ -1,18 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { DeploymentCard } from './components/DeploymentCard';
-
-// 1. Define the shape of a Deployment object
-interface Deployment {
-  id: string;
-  status?: string;
-  branch?: string;
-  commitMessage?: string;
-  createdAt?: string;
-  // This allows any other extra properties from your database
-  [key: string]: any; 
-}
+import { DeploymentCard, Deployment } from './components/DeploymentCard';
 
 export default function Home() {
   // 2. Tell useState that this is an array of 'Deployment' objects
