@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { DeploymentCard, Deployment } from './components/DeploymentCard';
 
 export default function Home() {
-  // 2. Tell useState that this is an array of 'Deployment' objects
+  // Define state with the correct Deployment[] type
   const [deployments, setDeployments] = useState<Deployment[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -69,7 +69,7 @@ export default function Home() {
 
         <div className="space-y-4">
           {deployments.length > 0 ? (
-            // 3. No need for ': any' here anymore; TypeScript knows 'd' is a Deployment
+            // FIX: Removed ': any'. TypeScript infers 'd' is 'Deployment' automatically.
             deployments.map((d) => (
               <DeploymentCard key={d.id} deployment={d} />
             ))

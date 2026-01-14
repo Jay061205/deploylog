@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
-const { Builder, By, until } = require('selenium-webdriver');
-const chrome = require('selenium-webdriver/chrome');
+import { Builder } from 'selenium-webdriver';
+import { Options } from 'selenium-webdriver/chrome';
 
 (async function example() {
   let driver = await new Builder()
     .forBrowser('chrome')
-    .setChromeOptions(new chrome.Options().addArguments('--headless', '--no-sandbox', '--disable-dev-shm-usage'))
+    .setChromeOptions(new Options().addArguments('--headless', '--no-sandbox', '--disable-dev-shm-usage'))
     .build();
 
   try {
