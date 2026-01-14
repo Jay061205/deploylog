@@ -3,8 +3,20 @@
 import { useState, useEffect } from 'react';
 import { DeploymentCard } from './components/DeploymentCard';
 
+// 1. Define the shape of a Deployment object
+interface Deployment {
+  id: string;
+  status?: string;
+  branch?: string;
+  commitMessage?: string;
+  createdAt?: string;
+  // This allows any other extra properties from your database
+  [key: string]: any; 
+}
+
 export default function Home() {
-  const [deployments, setDeployments] = useState([]);
+  // 2. Tell useState that this is an array of 'Deployment' objects
+  const [deployments, setDeployments] = useState<Deployment[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchDeployments = async () => {
@@ -68,7 +80,8 @@ export default function Home() {
 
         <div className="space-y-4">
           {deployments.length > 0 ? (
-            deployments.map((d: any) => (
+            // 3. No need for ': any' here anymore; TypeScript knows 'd' is a Deployment
+            deployments.map((d) => (
               <DeploymentCard key={d.id} deployment={d} />
             ))
           ) : (
