@@ -53,11 +53,7 @@ export async function POST(req: Request) {
 
     // 2. Initialize Gemini
     const genAI = new GoogleGenerativeAI(apiKey);
-<<<<<<< HEAD
-    const model = genAI.getGenerativeModel({ model: 'models/gemini-pro-latest' });
-=======
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
+    const model = genAI.getGenerativeModel({ model: 'models/gemini-flash-latest' });
 
     // 3. Prepare Prompt based on status
     let prompt;
