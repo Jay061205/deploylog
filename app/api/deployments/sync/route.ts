@@ -3,13 +3,8 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET() {
   try {
-<<<<<<< HEAD
     const repoOwner = process.env.GITHUB_REPO_OWNER || 'Jay061205';
     const repoName = process.env.GITHUB_REPO_NAME || 'deploylog';
-=======
-    const repoOwner = 'Jay061205';
-    const repoName = 'deploylog';
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
 
     // 1. Fetch latest runs from GitHub
     const headers: HeadersInit = {
@@ -76,7 +71,6 @@ export async function GET() {
         }
       }
 
-<<<<<<< HEAD
       let logs = '';
 
       // Fetch logs if completed
@@ -106,17 +100,12 @@ export async function GET() {
         }
       }
 
-=======
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
       // Upsert into DB
       await prisma.deployment.upsert({
         where: { id: run.id.toString() }, // Use GitHub Run ID as our ID
         update: {
           status: status,
-<<<<<<< HEAD
           logs: logs || undefined, // Update logs if we found them
-=======
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
           updatedAt: new Date(run.updated_at),
           endedAt: run.conclusion ? new Date(run.updated_at) : null,
         },
@@ -124,10 +113,7 @@ export async function GET() {
           id: run.id.toString(),
           projectName: 'DeployLog (GitHub)',
           status: status,
-<<<<<<< HEAD
           logs: logs || 'Fetching logs...',
-=======
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
           branch: run.head_branch,
           commitHash: run.head_sha,
           commitMessage: run.head_commit?.message || 'GitHub Run',

@@ -3,23 +3,9 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-<<<<<<< HEAD
 import { motion, AnimatePresence } from 'framer-motion';
-=======
-import { motion } from 'framer-motion';
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
 import ReactMarkdown from 'react-markdown';
 import { useSearchParams } from 'next/navigation';
-
-interface Comic {
-  num: number;
-  title: string;
-  img: string;
-  alt: string;
-  year: string;
-}
-
-<<<<<<< HEAD
 import { PipelineGraph, PipelineStage } from '../components/PipelineGraph';
 
 // Helper to determine stage statuses based on global status and logs
@@ -29,7 +15,6 @@ function calculateStages(status: string, logs: string = ''): PipelineStage[] {
   const logContent = logs?.toLowerCase() || '';
 
   // Base stages
-  // NOTE: In a real app these durations would come from the DB too
   let stages: PipelineStage[] = [
     { name: 'Start', status: 'pending' },
     { name: 'Lint', status: 'pending' },
@@ -73,8 +58,6 @@ function calculateStages(status: string, logs: string = ''): PipelineStage[] {
   });
 }
 
-=======
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
 function VisualModeContent() {
   const [activeTab, setActiveTab] = useState('Pipeline graph');
   const [analysis, setAnalysis] = useState<string | null>(null);
@@ -82,31 +65,11 @@ function VisualModeContent() {
   const [error, setError] = useState<string | null>(null);
   const [deploymentId, setDeploymentId] = useState<string | null>(null);
 
-<<<<<<< HEAD
   // Real Deployment State
   const [deploymentStatus, setDeploymentStatus] = useState<string>('pending');
   // Store real logs
   const [deploymentLogs, setDeploymentLogs] = useState<string>('');
   const [pipelineStages, setPipelineStages] = useState<PipelineStage[]>([]);
-=======
-  // Comic State
-  const [comic, setComic] = useState<Comic | null>(null);
-  const [comicLoading, setComicLoading] = useState(false);
-
-  // Fetch Comic function
-  const fetchComic = React.useCallback(async () => {
-    setComicLoading(true);
-    try {
-      const res = await fetch('/api/comic');
-      const data = await res.json();
-      setComic(data);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setComicLoading(false);
-    }
-  }, []);
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
 
   const searchParams = useSearchParams();
   const urlId = searchParams.get('id');
@@ -114,7 +77,7 @@ function VisualModeContent() {
   useEffect(() => {
     if (urlId) {
       setDeploymentId(urlId);
-<<<<<<< HEAD
+      setActiveTab('AI Mode'); // Auto-switch to AI tab if ID is present
     }
   }, [urlId]);
 
@@ -143,19 +106,6 @@ function VisualModeContent() {
     return () => clearInterval(interval);
   }, [deploymentId]);
 
-=======
-      setActiveTab('AI Mode'); // Auto-switch to AI tab if ID is present
-    }
-  }, [urlId]);
-
-  // Initial fetch for graph tab
-  useEffect(() => {
-    if (activeTab === 'Pipeline graph' && !comic) {
-      fetchComic();
-    }
-  }, [activeTab, comic, fetchComic]);
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
-
   const handleAnalyze = async () => {
     if (!deploymentId) {
       alert('Please enter a Deployment ID');
@@ -164,10 +114,8 @@ function VisualModeContent() {
 
     setLoading(true);
     setError(null);
-<<<<<<< HEAD
     setAnalysis(null);
-=======
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
+
     try {
       const res = await fetch('/api/analyze', {
         method: 'POST',
@@ -178,7 +126,6 @@ function VisualModeContent() {
       if (res.ok) {
         setAnalysis(data.analysis);
       } else {
-<<<<<<< HEAD
         // More user-friendly error messages
         const errMsg = data.error || '';
 
@@ -192,12 +139,6 @@ function VisualModeContent() {
       }
     } catch {
       setError('Failed to connect to the analysis service. Please check your network.');
-=======
-        setError(data.error);
-      }
-    } catch {
-      setError('Failed to connect to API');
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
     } finally {
       setLoading(false);
     }
@@ -206,7 +147,6 @@ function VisualModeContent() {
   const tabs = ['Pipeline graph', 'AI Mode'];
 
   return (
-<<<<<<< HEAD
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col items-center pt-8 relative font-sans text-slate-800">
 
       {/* Top Navigation */}
@@ -239,67 +179,31 @@ function VisualModeContent() {
 
       {/* Toggle Tab */}
       <div className="bg-slate-200/50 p-1.5 rounded-full flex relative mb-10 shadow-inner">
-=======
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center pt-10 relative">
-      {/* Back Button */}
-      <Link
-        href="/"
-        className="absolute top-6 left-6 p-2 text-gray-500 hover:text-gray-900 transition-colors"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M19 12H5" />
-          <path d="M12 19l-7-7 7-7" />
-        </svg>
-      </Link>
-
-      {/* Toggle Tab */}
-      <div className="bg-gray-200 p-1 rounded-full flex relative">
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
-        {tabs.map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab)}
-            className={`
-<<<<<<< HEAD
+        {
+          tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`
                 relative px-6 py-2 rounded-full text-sm font-medium transition-all z-10 duration-200
                 ${activeTab === tab ? 'text-slate-900' : 'text-slate-500 hover:text-slate-700'}
             `}
-=======
-                            relative px-6 py-2 rounded-full text-sm font-medium transition-colors z-10
-                            ${activeTab === tab ? 'text-gray-900' : 'text-gray-600 hover:text-gray-900'}
-                        `}
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
-          >
-            {activeTab === tab && (
-              <motion.div
-                layoutId="active-pill"
-<<<<<<< HEAD
-                className="absolute inset-0 bg-white rounded-full shadow-sm border border-slate-200/50"
-                transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-=======
-                className="absolute inset-0 bg-white rounded-full shadow-sm"
-                transition={{ type: 'spring', duration: 0.5 }}
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
-                style={{ zIndex: -1 }}
-              />
-            )}
-            {tab}
-          </button>
-        ))}
+            >
+              {activeTab === tab && (
+                <motion.div
+                  layoutId="active-pill"
+                  className="absolute inset-0 bg-white rounded-full shadow-sm border border-slate-200/50"
+                  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                  style={{ zIndex: -1 }}
+                />
+              )}
+              {tab}
+            </button>
+          ))
+        }
       </div>
 
       {/* Content Area */}
-<<<<<<< HEAD
       <div className="w-full max-w-5xl px-6 pb-20">
         <AnimatePresence mode="wait">
           <motion.div
@@ -497,183 +401,6 @@ function VisualModeContent() {
             )}
           </motion.div>
         </AnimatePresence>
-=======
-      <div className="flex-1 w-full max-w-4xl p-8 flex flex-col items-center justify-center text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">{activeTab}</h2>
-        <div className="text-gray-600 mb-8 w-full">
-          {activeTab === 'Pipeline graph' && (
-            <div className="w-full bg-white p-8 rounded-lg shadow-sm border border-gray-100 flex flex-col items-center">
-              <h3 className="text-lg font-semibold text-gray-800 mb-6">
-                Pipeline Visualization (Coming Soon)
-              </h3>
-              <p className="text-gray-500 mb-8">
-                While our engineers build the graph, here is a random tech comic
-                for your amusement:
-              </p>
-
-              {comicLoading ? (
-                <div className="h-64 flex items-center justify-center">
-                  <div className="animate-spin h-8 w-8 border-4 border-gray-300 rounded-full border-t-gray-800"></div>
-                </div>
-              ) : comic ? (
-                <div className="flex flex-col items-center max-w-2xl w-full">
-                  <h4 className="text-xl font-bold text-gray-900 mb-4">
-                    {comic.title}
-                  </h4>
-                  <div className="relative group border-4 border-black rounded-sm p-2 bg-white transform -rotate-1 transition hover:rotate-0 hover:scale-[1.01] duration-300 shadow-xl cursor-help">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={comic.img}
-                      alt={comic.alt}
-                      title={comic.alt}
-                      className="max-w-full h-auto"
-                    />
-                    <div className="absolute inset-x-0 bottom-0 bg-black/90 text-white p-4 translate-y-full opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 text-center text-sm z-10 rounded-b-sm">
-                      {comic.alt}
-                    </div>
-                  </div>
-                  <div className="mt-10 flex gap-4">
-                    <button
-                      onClick={fetchComic}
-                      disabled={comicLoading}
-                      className="px-6 py-2 bg-gray-900 text-white rounded-full hover:bg-gray-800 transition shadow-lg flex items-center gap-2 font-medium active:scale-95"
-                    >
-                      <span>🎲</span> Another One
-                    </button>
-                    <a
-                      href={`https://xkcd.com/${comic.num}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-6 py-2 border border-gray-300 text-gray-600 rounded-full hover:bg-gray-50 transition font-medium"
-                    >
-                      Open Source ↗
-                    </a>
-                  </div>
-                  <p className="mt-6 text-xs text-gray-400 font-mono">
-                    Comic #{comic.num} • {comic.year} • Courtesy of xkcd.com
-                  </p>
-                </div>
-              ) : (
-                <button
-                  onClick={fetchComic}
-                  className="text-blue-500 underline"
-                >
-                  Load Comic
-                </button>
-              )}
-            </div>
-          )}
-          {activeTab === 'AI Mode' && (
-            <div className="text-left w-full bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-              {!analysis && !loading && (
-                <div className="flex flex-col gap-4 items-center py-8">
-                  <div className="bg-blue-50 p-4 rounded-full mb-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="32"
-                      height="32"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-blue-500"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <path d="M12 16v-4" />
-                      <path d="M12 8h.01" />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-800">
-                    Analyze Deployment
-                  </h3>
-                  <p className="text-gray-500 text-center max-w-md">
-                    Ready to analyze logs for this deployment using Gemini AI.
-                  </p>
-                  {deploymentId ? (
-                    <div className="flex flex-col gap-3 mt-2 w-full max-w-xs items-center">
-                      <div className="text-sm font-mono bg-gray-50 border border-gray-200 px-3 py-1.5 rounded text-gray-600">
-                        ID: {deploymentId}
-                      </div>
-                      <button
-                        onClick={handleAnalyze}
-                        className="bg-blue-600 text-white px-8 py-2.5 rounded-lg hover:bg-blue-700 transition font-medium shadow-sm flex items-center gap-2 group"
-                      >
-                        <Image
-                          src="/geminiLogo.webp"
-                          alt="Gemini AI"
-                          width={20}
-                          height={20}
-                          className="object-contain group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all"
-                        />
-                        Start AI Analysis
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="mt-4 flex flex-col items-center gap-2">
-                      <p className="text-sm text-yellow-600 bg-yellow-50 px-4 py-2 rounded-md border border-yellow-100">
-                        No Deployment ID detected in URL.
-                      </p>
-                      <Link
-                        href="/"
-                        className="text-blue-600 hover:underline text-sm font-medium"
-                      >
-                        Select from Dashboard &rarr;
-                      </Link>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {loading && (
-                <div className="flex flex-col items-center justify-center p-12">
-                  <div className="animate-spin h-10 w-10 border-4 border-blue-500 rounded-full border-t-transparent mb-4"></div>
-                  <p className="text-gray-500 animate-pulse">
-                    Analyzing logs with Gemini...
-                  </p>
-                </div>
-              )}
-
-              {error && (
-                <div className="bg-red-50 text-red-600 p-4 rounded-lg border border-red-100 flex items-center gap-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M18 6L6 18M6 6l12 12" />
-                  </svg>
-                  {error}
-                </div>
-              )}
-
-              {analysis && (
-                <div className="prose prose-sm max-w-none prose-slate prose-headings:font-bold prose-headings:text-gray-900 prose-p:text-gray-600 prose-li:text-gray-600 prose-strong:text-gray-900 prose-code:text-blue-600 prose-code:bg-blue-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none border-t pt-6 mt-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 m-0">
-                      AI Analysis Result
-                    </h3>
-                    <button
-                      onClick={() => setAnalysis(null)}
-                      className="text-sm text-gray-400 hover:text-gray-700 hover:underline transition-colors mb-0"
-                    >
-                      Clear & Previous
-                    </button>
-                  </div>
-                  <ReactMarkdown>{analysis}</ReactMarkdown>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
       </div>
     </div>
   );

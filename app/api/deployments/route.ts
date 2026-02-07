@@ -1,11 +1,8 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-<<<<<<< HEAD
 export const dynamic = 'force-dynamic';
 
-=======
->>>>>>> 09c82dd4c54ebb1d2970c5f033bc1add94dcc051
 export async function GET() {
   try {
     const deployments = await prisma.deployment.findMany({
